@@ -57,5 +57,11 @@ async def chiste(ctx):
     
     await ctx.send(random.choice(chistes))
 
+answers = ["Sí", "No", "Tal vez", "Pregunta después", "Definitivamente", "No tengo idea"]
+
+@bot.command(name="8ball")
+async def eightball(ctx, *, question: str):
+    await ctx.send(random.choice(answers))
+    
 bot.run("TOKEN")
 
