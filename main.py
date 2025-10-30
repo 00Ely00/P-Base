@@ -2,33 +2,32 @@ import discord
 from discord.ext import commands
 import random
 
-
+intents = discord.Intents.default()
+intents.message_content = True
 bot = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 
 @bot.event
 async def on_ready():
-    print(f'🎮 Bot de juegos listo!')
+    print(f'Inicio con el Bot {bot.user.name}, listo!')
 
-# COMANDOS
+# COMANDO !DADO
 @bot.command()
 async def dado(ctx, caras: int = 6):
-    """Tira un dado (1-6 por defecto)"""
     if caras < 2:
         await ctx.send("❌ El dado debe tener al menos 2 caras")
         return
-    
     resultado = random.randint(1, caras)
     await ctx.send(f"🎲 {ctx.author.mention} tiró un dado de **{caras}** caras: **{resultado}**")
 
+# COMANDO !MONEDA
 @bot.command()
 async def moneda(ctx):
-    """Lanza una moneda"""
     resultado = random.choice(["Cara 👑", "Cruz ⚔️"])
-    await ctx.send(f"🪙 {ctx.author.mention} lanzó una moneda: **{resultado}**")
+    await ctx.send(f" {ctx.author.mention} lanzó una moneda y su resultado es: **{resultado}**")
 
+# COMANDO !CARIÑO
 @bot.command()
-async def abrazo(ctx, miembro: discord.Member = None):
-    """Abraza a alguien"""
+async def cariño(ctx, miembro: discord.Member = None):
     if miembro is None:
         await ctx.send("❌ Debes mencionar a alguien para abrazar")
         return
@@ -37,17 +36,42 @@ async def abrazo(ctx, miembro: discord.Member = None):
         await ctx.send("🤔 No puedes abrazarte a ti mismo...")
         return
     
-    mensajes_abrazo = [
+    mensajes = [
         f"🤗 {ctx.author.mention} abrazó fuertemente a {miembro.mention}",
-        f"💕 {ctx.author.mention} le da un caluroso abrazo a {miembro.mention}",
-        f"❤️ {ctx.author.mention} abraza a {miembro.mention} con mucho cariño"
+        f"💕 {ctx.author.mention} beso a {miembro.mention} con musho cariño!",
+        f"❤️ {ctx.author.mention} carga a {miembro.mention} con delicadeza",
+        f"❤️ {ctx.author.mention} le da un besito a {miembro.mention} en la mejilla.",
+        f"{ctx.author.mention} hizo que {miembro.mention} se sonrojara💕",
+        f"💕{ctx.author.mention} se sonrojó al pensar en {miembro.mention}💕"
     ]
     
-    await ctx.send(random.choice(mensajes_abrazo))
+    await ctx.send(random.choice(mensajes))
 
+# COMANDO !ODIO
+@bot.command()
+async def odio(ctx, miembro: discord.Member = None):
+    if miembro is None:
+        await ctx.send("❌ Debes mencionar a alguien para odiar")
+        return
+    
+    if miembro == ctx.author:
+        await ctx.send(f"{ctx.author.mention} Se odia a si mismo...")
+        return
+    
+    mensajes = [
+        f"💔 {ctx.author.mention} odia profundamente a {miembro.mention}",
+        f"😡 {ctx.author.mention} detesta a {miembro.mention} con toda su alma!",
+        f"🔥 {ctx.author.mention} espera que se quemen los focos de la casa de {miembro.mention}",
+        f"⚡ {ctx.author.mention} mira a {miembro.mention} y se irrita.",
+        f"🌪️ {ctx.author.mention} zarandea a {miembro.mention}!",
+        f"{ctx.author.mention} quiere tirarle una roca a {miembro.mention}"
+    ]
+    
+    await ctx.send(random.choice(mensajes))
+
+# COMANDO !CHISTE
 @bot.command()
 async def chiste(ctx):
-    """Cuenta un chiste aleatorio"""
     chistes = [
         "¿Por qué los pájaros vuelan sur? ⬇️ Porque caminando tardarían mucho. 🐦",
         "¿Qué le dice un jamón a otro jamón? 🐷 ¡Nos vemos en el jamón!",
@@ -57,7 +81,7 @@ async def chiste(ctx):
     ]
     
     await ctx.send(random.choice(chistes))
-
+#COMANDO !8BALL
 responses = ["Sí", "No", "Tal vez.", "¿Es broma? Obvio no.", "Definitivamente si.", "Si tu no sabes, menos yo."]
 
 @bot.command(name="8ball")
